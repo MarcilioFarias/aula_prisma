@@ -9,4 +9,23 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
     } catch(error){
         return false;
     }
+};
+
+export const createUsers = async (data: Prisma.UserCreateInput[]) =>{
+    try {
+        return await prisma.user.createMany({data, skipDuplicates: true})
+    } catch(error){
+        return false;
+    }
+}
+
+export const getAllUsers = async () => {
+    return await prisma.user.findMany({
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            status: true
+        }
+    });
 }
