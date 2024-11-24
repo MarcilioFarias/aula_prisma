@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, createUsers, getAllUsers } from '../services/user';
+import { createUser, createUsers, getAllUsers, getUserByEmail } from '../services/user';
 
 export const mainRoute = express.Router();
 
@@ -27,10 +27,10 @@ mainRoute.post('/user', async (req, res)=>{
 
 mainRoute.post('/users', async (req, res)=>{
     const newUsers = await createUsers([
-        {name: 'tester2', email: 'tester2@test.com'},
-        {name: 'tester2', email: 'tester2@test.com'},
-        {name: 'tester3', email: 'tester3@test.com'},
-        {name: 'tester4', email: 'tester4@test.com'},
+        {name: 'tester2', email: 'tester2@yahoo.com'},
+        {name: 'tester2', email: 'tester2@yahoo.com'},
+        {name: 'tester3', email: 'tester3@yahoo.com'},
+        {name: 'tester4', email: 'tester4@yahoo.com'},
     ]);
     if(newUsers){
         res.status(201).json({newUsers})
@@ -43,3 +43,14 @@ mainRoute.get('/list', async (req, res)=>{
         res.status(200).json({list: listUsers})
     }
 });
+
+mainRoute.get('/find', async (req, res)=>{    
+    const result = await getUserByEmail(
+        `${req.query.email}`
+    );
+    if(result){
+        res.status(200).json({result})
+    } else {
+        res.json({message: 'User not found'})
+    }
+})
