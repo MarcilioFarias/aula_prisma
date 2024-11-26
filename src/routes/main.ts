@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, createUsers, findEmail, getAllUsers, getUserByEmail } from '../services/user';
+import { createUser, createUsers, findEmail, findUserPost, getAllUsers, getUserByEmail } from '../services/user';
 
 export const mainRoute = express.Router();
 
@@ -64,4 +64,15 @@ mainRoute.get('/search', async (req, res)=>{
     } else {
         res.status(500).json({message: 'Email not found'});
     }
-})
+});
+
+mainRoute.get('/related', async  (req, res)=> {
+    const userPost = await findUserPost(
+        `${req.query.title}`
+    );
+    if(userPost){
+        res.status(200).json({found: userPost});
+    } else {
+        res.json({message: 'No user found'});
+    }
+});

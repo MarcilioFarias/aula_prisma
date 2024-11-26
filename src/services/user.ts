@@ -36,7 +36,29 @@ export const findEmail = async (email: string) => {
         where: {
             email: {
                 endsWith: email
-            }
+            }            
+        },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            updatedAt: true,
+            createdAt: true
+        }
+    });
+}
+
+export const findUserPost = async (title: string) => {
+    return await prisma.user.findMany({
+        //criar metodo para fazer filtro por nome ou email
+        where: {
+            Post: {
+                some: {
+                    title: {
+                        startsWith: title
+                    }
+                }
+            }            
         },
         select: {
             id: true,
