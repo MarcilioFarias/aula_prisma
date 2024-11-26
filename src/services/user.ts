@@ -55,7 +55,8 @@ export const findUserPost = async (title: string) => {
             Post: {
                 some: {
                     title: {
-                        startsWith: title
+                        startsWith: title,
+                        mode: 'insensitive'
                     }
                 }
             }            
